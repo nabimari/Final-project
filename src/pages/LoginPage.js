@@ -1,51 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
-  const styles = {
-    container: {
-      textAlign: "center",
-      backgroundColor: "#e3f2fd", // Light blue background
-      padding: "20px",
-      minHeight: "100vh",
-    },
-    form: {
-      margin: "0 auto",
-      padding: "20px",
-      maxWidth: "400px",
-      backgroundColor: "white",
-      borderRadius: "8px",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    },
-    input: {
-      display: "block",
-      width: "100%",
-      marginBottom: "10px",
-      padding: "10px",
-      fontSize: "16px",
-      borderRadius: "4px",
-      border: "1px solid #ccc",
-    },
-    button: {
-      width: "100%",
-      padding: "10px",
-      backgroundColor: "#42a5f5",
-      color: "white",
-      border: "none",
-      borderRadius: "4px",
-      cursor: "pointer",
-    },
+const LoginPage = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const auth = getAuth();
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      alert("Login successful!");
+      navigate("/teacher"); // Redirect to the dashboard
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
-    <div style={styles.container}>
-      <h1>Login</h1>
-      <form style={styles.form}>
-        <input style={styles.input} type="text" placeholder="Username" />
-        <input style={styles.input} type="password" placeholder="Password" />
-        <button style={styles.button} type="submit">Login</button>
+    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
+      <h2>Login</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          style={{ padding: "8px", borderRadius: "4px", border: "1px solid lightgray" }}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          style={{ padding: "8px", borderRadius: "4px", border: "1px solid lightgray" }}
+        />
+        <button
+          type="submit"
+          style={{
+            padding: "10px",
+            borderRadius: "4px",
+            backgroundColor: "lightblue",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Login
+        </button>
       </form>
     </div>
   );
-}
+};
 
 export default LoginPage;
