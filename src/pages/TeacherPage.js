@@ -27,7 +27,7 @@ const TeacherPage = () => {
           Generate Seating Arrangement
         </button>
         <button
-          onClick={() => navigate("/questionnaire")}
+          onClick={() => navigate("/show-students")}
           style={buttonStyle}
         >
           Questionnaire

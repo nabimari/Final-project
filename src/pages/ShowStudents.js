@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure the path to your firebase.js file is correct
+import { useNavigate } from "react-router-dom";
 
 const ShowStudents = () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
 
   const fetchStudents = async () => {
@@ -20,6 +22,10 @@ const ShowStudents = () => {
     }
   };
 
+  const handleDoQuestionnaire = (studentId) => {
+    console.log(`Redirecting to questionnaire for student ID: ${studentId}`);
+    // Add your logic here for handling the questionnaire for the specific student
+  };
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "20px auto" }}>
@@ -67,6 +73,9 @@ const ShowStudents = () => {
                 <th style={{ border: "1px solid lightgray", padding: "10px" }}>
                   Special Needs
                 </th>
+                <th style={{ border: "1px solid lightgray", padding: "10px" }}>
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -89,6 +98,21 @@ const ShowStudents = () => {
                   </td>
                   <td style={{ border: "1px solid lightgray", padding: "10px" }}>
                     {student.specialNeeds ? "Yes" : "No"}
+                  </td>
+                  <td style={{ border: "1px solid lightgray", padding: "10px" }}>
+                    <button
+                      onClick={() => navigate("/Questionnaire")}
+                      style={{
+                        padding: "5px 10px",
+                        borderRadius: "5px",
+                        backgroundColor: "#28a745",
+                        color: "#fff",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Do Questionnaire
+                    </button>
                   </td>
                 </tr>
               ))}

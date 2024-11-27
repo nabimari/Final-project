@@ -80,6 +80,7 @@ import ShowStudents from "./pages/ShowStudents";
 import PrivateRoute from "./components/PrivateRoute";
 import TeacherPage from "./pages/TeacherPage";
 import EditStudent from "./pages/EditStudent";
+import Questionnaire from "./pages/Questionnaire"; // Import the Questionnaire component
 
 const App = () => {
   return (
@@ -120,8 +121,23 @@ const App = () => {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/questionnaire"
+          element={
+            <PrivateRoute>
+              <Questionnaire />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/show-students"
+          element={
+            <PrivateRoute>
+              <ShowStudents/>
+            </PrivateRoute>
+          }
+        />
       </Routes>
-
     </Router>
   );
 };
