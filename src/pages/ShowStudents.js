@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure the path to your firebase.js file is correct
+import Header from "../components/Header";
 
 const ShowStudents = () => {
   const [students, setStudents] = useState([]);

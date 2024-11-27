@@ -2,6 +2,7 @@ import React from "react";
 
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import Header from "../components/Header";
 
 const StudentPage = () => {
   const [students, setStudents] = React.useState([]);

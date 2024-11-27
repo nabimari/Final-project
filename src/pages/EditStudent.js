@@ -1,178 +1,199 @@
-import React, { useState, useEffect } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase"; // Ensure correct path to firebase.js
+import React, { useState } from "react";
 import Header from "../components/Header";
 
-const EditStudent = ({ studentId }) => {
-  const [student, setStudent] = useState(null);
-  const [loading, setLoading] = useState(true);
+const GenerateSeatingPage = () => {
+  const [criteria, setCriteria] = useState({
+    academicLevel: false,
+    behavior: false,
+    specialNeeds: false,
+    language: false,
+  });
 
-  // Fetch student details when the component loads
-  useEffect(() => {
-    const fetchStudent = async () => {
-      try {
-        const docRef = doc(db, "Students", studentId);
-        const docSnap = await getDoc(docRef);
+  const [seatingMatrix, setSeatingMatrix] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-        if (docSnap.exists()) {
-          setStudent(docSnap.data());
-        } else {
-          alert("No student found!");
-        }
-      } catch (error) {
-        console.error("Error fetching student details: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStudent();
-  }, [studentId]);
-
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setStudent((prev) => ({ ...prev, [name]: value }));
+  const handleCriteriaChange = (e) => {
+    const { name, checked } = e.target;
+    setCriteria((prev) => ({ ...prev, [name]: checked }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const docRef = doc(db, "Students", studentId);
-      await updateDoc(docRef, student);
-      alert("Student details updated successfully!");
-    } catch (error) {
-      console.error("Error updating student details: ", error);
-      alert("Failed to update student details. Please try again.");
-    }
+  const handleGenerate = async () => {
+    setLoading(true);
+    // Simulated algorithm (replace with actual clustering or CSP logic)
+    setTimeout(() => {
+      const mockMatrix = [
+        ["Student A", "Student B", "Student C"],
+        ["Student D", "Student E", "Student F"],
+        ["Student G", "Student H", "Student I"],
+      ];
+      setSeatingMatrix(mockMatrix);
+      setLoading(false);
+    }, 2000);
   };
 
-  if (loading) {
-    return <p style={{ textAlign: "center" }}>Loading...</p>;
-  }
+  const handleSave = () => {
+    alert("Seating arrangement saved!");
+    // Implement Firebase save logic here
+  };
 
-  if (!student) {
-    return <p style={{ textAlign: "center" }}>No student data available.</p>;
-  }
+  const handleReset = () => {
+    setCriteria({
+      academicLevel: false,
+      behavior: false,
+      specialNeeds: false,
+      language: false,
+    });
+    setSeatingMatrix([]);
+  };
 
   return (
     <div>
-      {/* Add Header */}
-      <Header title="Edit Student" />
-
-      {/* Main Content */}
-      <div
-        style={{
-          padding: "20px",
-          maxWidth: "500px",
-          margin: "20px auto",
-          backgroundColor: "#f9f9f9",
-          borderRadius: "8px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h2 style={{ textAlign: "center", color: "#333" }}>Edit Student</h2>
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Student Name"
-            value={student.name || ""}
-            onChange={handleChange}
-            required
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid lightgray",
-            }}
-          />
-          <input
-            type="number"
-            name="age"
-            placeholder="Student Age"
-            value={student.age || ""}
-            onChange={handleChange}
-            required
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid lightgray",
-            }}
-          />
-          <input
-            type="text"
-            name="academicLevel"
-            placeholder="Academic Level"
-            value={student.academicLevel || ""}
-            onChange={handleChange}
-            required
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid lightgray",
-            }}
-          />
-          <input
-            type="text"
-            name="behavior"
-            placeholder="Behavior"
-            value={student.behavior || ""}
-            onChange={handleChange}
-            required
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid lightgray",
-            }}
-          />
-          <input
-            type="text"
-            name="language"
-            placeholder="Language"
-            value={student.language || ""}
-            onChange={handleChange}
-            required
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid lightgray",
-            }}
-          />
-          <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <Header title=" log out header" />
+      <div style={containerStyle}>
+        <h2 style={headerStyle}>Select Criteria</h2>
+        <div style={criteriaStyle}>
+          <label style={checkboxLabelStyle}>
+            <input
+              type="checkbox"
+              name="academicLevel"
+              checked={criteria.academicLevel}
+              onChange={handleCriteriaChange}
+            />
+            Academic Level
+          </label>
+          <label style={checkboxLabelStyle}>
+            <input
+              type="checkbox"
+              name="behavior"
+              checked={criteria.behavior}
+              onChange={handleCriteriaChange}
+            />
+            Behavior
+          </label>
+          <label style={checkboxLabelStyle}>
             <input
               type="checkbox"
               name="specialNeeds"
-              checked={student.specialNeeds || false}
-              onChange={(e) =>
-                setStudent((prev) => ({
-                  ...prev,
-                  specialNeeds: e.target.checked,
-                }))
-              }
+              checked={criteria.specialNeeds}
+              onChange={handleCriteriaChange}
             />
             Special Needs
           </label>
-          <button
-            type="submit"
-            style={{
-              padding: "12px",
-              borderRadius: "5px",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            Save Changes
+          <label style={checkboxLabelStyle}>
+            <input
+              type="checkbox"
+              name="language"
+              checked={criteria.language}
+              onChange={handleCriteriaChange}
+            />
+            Language
+          </label>
+        </div>
+        <div style={buttonContainerStyle}>
+          <button onClick={handleGenerate} style={buttonStyle}>
+            Generate Seating
           </button>
-        </form>
+          <button onClick={handleReset} style={buttonStyle}>
+            Reset
+          </button>
+          {seatingMatrix.length > 0 && (
+            <button onClick={handleSave} style={buttonStyle}>
+              Save Arrangement
+            </button>
+          )}
+        </div>
+        {loading ? (
+          <p>Loading seating arrangement...</p>
+        ) : seatingMatrix.length > 0 ? (
+          <div style={matrixStyle}>
+            {seatingMatrix.map((row, rowIndex) => (
+              <div key={rowIndex} style={rowStyle}>
+                {row.map((student, colIndex) => (
+                  <div key={colIndex} style={seatStyle}>
+                    {student}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No seating arrangement generated yet.</p>
+        )}
       </div>
     </div>
   );
 };
 
-export default EditStudent;
+const containerStyle = {
+  padding: "20px",
+  maxWidth: "800px",
+  margin: "20px auto",
+  backgroundColor: "#f9f9f9",
+  borderRadius: "8px",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  textAlign: "center",
+};
+
+const headerStyle = {
+  color: "#007bff",
+  marginBottom: "20px",
+  fontSize: "24px",
+  fontWeight: "bold",
+};
+
+const criteriaStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "start",
+  gap: "10px",
+  marginBottom: "20px",
+};
+
+const checkboxLabelStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  fontSize: "16px",
+};
+
+const buttonContainerStyle = {
+  display: "flex",
+  justifyContent: "center",
+  gap: "20px",
+  margin: "20px 0",
+};
+
+const buttonStyle = {
+  padding: "10px 20px",
+  backgroundColor: "#007bff",
+  color: "#fff",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer",
+  fontSize: "16px",
+  fontWeight: "bold",
+};
+
+const matrixStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "10px",
+  marginTop: "20px",
+};
+
+const rowStyle = {
+  display: "flex",
+  gap: "10px",
+};
+
+const seatStyle = {
+  padding: "10px",
+  backgroundColor: "#e7f3ff",
+  border: "1px solid #007bff",
+  borderRadius: "4px",
+  minWidth: "100px",
+  textAlign: "center",
+};
+
+export default GenerateSeatingPage;

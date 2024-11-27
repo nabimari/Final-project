@@ -80,7 +80,9 @@ import ShowStudents from "./pages/ShowStudents";
 import PrivateRoute from "./components/PrivateRoute";
 import TeacherPage from "./pages/TeacherPage";
 import EditStudent from "./pages/EditStudent";
+import GenerateSeating from "./pages/GenerateSeating";
 
+/*
 const App = () => {
   return (
     <Router>
@@ -125,5 +127,58 @@ const App = () => {
     </Router>
   );
 };
+*/
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/teacher"
+          element={
+            <PrivateRoute>
+              <TeacherPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-student"
+          element={
+            <PrivateRoute>
+              <AddStudent />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/show-students"
+          element={
+            <PrivateRoute>
+              <ShowStudents />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/edit-student/:id"
+          element={
+            <PrivateRoute>
+              <EditStudent />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/generate-seating"
+          element={
+            <PrivateRoute>
+              <GenerateSeating />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
+};
+
 
 export default App;
