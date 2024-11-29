@@ -160,7 +160,7 @@ const App = () => {
           }
         />
         <Route
-          path="/edit-student/:id"
+          path="/edit-student"
           element={
             <PrivateRoute>
               <EditStudent />
