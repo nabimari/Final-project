@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
+
 
 const Questionnaire = () => {
+  const { studentId } = useParams(); 
+  const navigate = useNavigate();
   const [responses, setResponses] = useState({});
 
   const handleInputChange = (section, question, value) => {
@@ -13,11 +20,21 @@ const Questionnaire = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Submitted Responses:", responses);
-    alert("Thank you! Your responses have been submitted.");
-  };
+  const handleSubmit = async () => {
+    if (!studentId) {
+      alert("Student ID is missing. Please select a student.");
+      return;
+    }
 
+    try {
+      await setDoc(doc(db, "Students", studentId, "Questionnaire", "Responses"), {
+        ...responses,
+      });
+      alert("Responses saved successfully!");
+    } catch (error) {
+      console.error("Error saving responses:", error);
+    }
+  };
   const styles = {
     container: {
       width: "100%",
@@ -268,9 +285,15 @@ const Questionnaire = () => {
           </div>
         </section>
 
-        <button style={styles.submitButton} onClick={handleSubmit}>
-          Submit Questionnaire
-        </button>
+        <button
+          style={styles.submitButton}
+          onClick={() => {
+          handleSubmit(); 
+          navigate("/show-students"); 
+  }}
+>
+  Submit Questionnaire
+</button>
       </div>
     </div>
   );
