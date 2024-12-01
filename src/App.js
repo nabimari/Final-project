@@ -285,10 +285,10 @@ const App = () => {
               }
             />
             <Route
-              path="/questionnaire/:studentId"
+              path="/questionnaire"
               element={
                 <PrivateRoute>
-                  <Questionnaire />
+                  <ShowStudents />
                 </PrivateRoute>
               }
             />

@@ -237,7 +237,7 @@ const TeacherPage = () => {
             Add Student
           </button>
           <button
-            onClick={() => navigate("/edit-student")}
+            onClick={() => navigate("/show-students-to-edit")}
             style={buttonStyle}
           >
             Edit Student
