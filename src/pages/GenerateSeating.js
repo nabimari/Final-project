@@ -434,9 +434,7 @@ const GenerateSeating = () => {
 
   return (
     <div>
-      <Header title="Generate Seating Arrangement" />
       <div style={containerStyle}>
-        <h2 style={headerStyle}>Generate Seating Arrangement</h2>
 
         {/* Class Selection */}
         <select

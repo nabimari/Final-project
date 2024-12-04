@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header"; // Import the Header component
 
 const ShowQuesResults = () => {
   const navigate = useNavigate();
@@ -194,10 +195,13 @@ const ShowQuesResults = () => {
   }
 
   return (
+    <div>
+    {/* Add Header */}
+
     <div style={styles.container}>
       <div style={styles.innerContainer}>
         <header style={styles.header}>
-          <h1>Questionnaire Results</h1>
+
         </header>
         <button
           style={styles.backButton}
@@ -253,6 +257,7 @@ const ShowQuesResults = () => {
           </button>
         )}
       </div>
+    </div>
     </div>
   );
 };

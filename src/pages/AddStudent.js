@@ -203,8 +203,8 @@ const AddStudent = () => {
 
   return (
     <div>
-      {/* Add Header */}
-      <Header title="Add Student" />
+
+
 
       {/* Main Form */}
       <div

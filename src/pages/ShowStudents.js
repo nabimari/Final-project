@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure the path to your firebase.js file is correct
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header"; // Import the Header component
 
 const ShowStudents = () => {
   const navigate = useNavigate();
@@ -142,8 +143,11 @@ const ShowStudents = () => {
   };
 
   return (
+    <div>
+
+
     <div style={styles.container}>
-      <h2 style={styles.header}>Student List</h2>
+
 
       {showFetchButton && (
         <button onClick={fetchStudents} style={styles.fetchButton}>
@@ -223,6 +227,7 @@ const ShowStudents = () => {
           </p>
         )}
       </div>
+    </div>
     </div>
   );
 };

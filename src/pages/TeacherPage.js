@@ -195,11 +195,9 @@ const TeacherPage = () => {
 
   return (
     <div>
-      <Header title="Teacher Dashboard" />
 
       {/* Main Container */}
       <div style={containerStyle}>
-        <h1 style={headerStyle}>Teacher Dashboard</h1>
 
         {/* Class Selection */}
         <div style={classContainerStyle}>

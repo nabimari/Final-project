@@ -490,9 +490,8 @@ const EditStudent = () => {
 
   return (
     <div>
-      <Header title="Edit Student" />
+
       <div style={containerStyle}>
-        <h2 style={headerStyle}>Edit Student</h2>
 
         {/* Student List */}
         {loading ? (

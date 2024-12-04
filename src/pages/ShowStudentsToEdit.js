@@ -158,7 +158,7 @@ const ShowStudentsToEdit = () => {
 
   return (
     <div>
-      <Header title="Show Students" />
+
       <div style={containerStyle}>
         <h2 style={headerStyle}>View Students</h2>
         {/* Class Selection Dropdown */}

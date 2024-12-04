@@ -95,7 +95,6 @@ const LoginPage = () => {
       const teacherDoc = await getDoc(doc(db, "Teachers", userCredential.user.uid));
       if (teacherDoc.exists()) {
         console.log("Teacher Data:", teacherDoc.data());
-        alert("Login successful!");
         navigate("/teacher"); // Redirect to the teacher dashboard
       } else {
         throw new Error("No teacher record found. Please contact support.");
@@ -107,7 +106,7 @@ const LoginPage = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
-      <h2 style={{ textAlign: "center", color: "#333" }}>Login</h2>
+
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       <form
         onSubmit={handleSubmit}

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
-
+import Header from "../components/Header"; // Import the Header component
 
 const Questionnaire = () => {
   const { studentId } = useParams();
@@ -118,6 +118,8 @@ const Questionnaire = () => {
   };
 
   return (
+    <div>
+
     <div style={styles.container}>
       <div style={styles.innerContainer}>
         <header style={styles.header}>
@@ -296,7 +298,9 @@ const Questionnaire = () => {
 </button>
       </div>
     </div>
+    </div>
   );
+
 };
 
 export default Questionnaire;
