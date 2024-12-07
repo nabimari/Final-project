@@ -258,6 +258,12 @@ const TeacherPage = () => {
           >
             Analytics
           </button>
+          <button
+            onClick={() => navigate("/my-classes")}
+            style={buttonStyle}
+          >
+            My Classes
+          </button>
         </div>
       </div>
     </div>
