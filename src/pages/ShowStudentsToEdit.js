@@ -108,6 +108,141 @@ const ShowStudents = () => {
 
 export default ShowStudents;
 */
+/*
+import React, { useState, useEffect } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import Header from "../components/Header";
+
+const ShowStudentsToEdit = () => {
+  const [classes, setClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState("");
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch classes from Firestore
+  useEffect(() => {
+    const fetchClasses = async () => {
+      const classCollection = collection(db, "Classes");
+      const snapshot = await getDocs(classCollection);
+      const classList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setClasses(classList);
+    };
+    fetchClasses();
+  }, []);
+
+  // Fetch students dynamically based on selected class
+  useEffect(() => {
+    if (!selectedClass) {
+      setStudents([]);
+      return;
+    }
+    const fetchStudents = async () => {
+      setLoading(true);
+      const studentQuery = query(
+        collection(db, "Students"),
+        where("classId", "==", selectedClass)
+      );
+      const snapshot = await getDocs(studentQuery);
+      const studentList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setStudents(studentList);
+      setLoading(false);
+    };
+    fetchStudents();
+  }, [selectedClass]);
+
+  return (
+    <div>
+      <Header title="Show Students" />
+      <div style={containerStyle}>
+        <h2 style={headerStyle}>View Students</h2>
+
+        <select
+          value={selectedClass}
+          onChange={(e) => setSelectedClass(e.target.value)}
+          style={dropdownStyle}
+        >
+          <option value="">Select a Class</option>
+          {classes.map((cls) => (
+            <option key={cls.id} value={cls.id}>
+              {cls.name}
+            </option>
+          ))}
+        </select>
+
+        {loading ? (
+          <p>Loading students...</p>
+        ) : students.length > 0 ? (
+          <div style={studentListStyle}>
+            {students.map((student) => (
+              <div key={student.id} style={studentCardStyle}>
+                <h4>{student.name}</h4>
+                <p>Age: {student.age}</p>
+                <p>Academic Level: {student.academicLevel}</p>
+                <p>Behavior: {student.behavior}</p>
+                <p>Language: {student.language}</p>
+                <p>Special Needs: {student.specialNeeds ? "Yes" : "No"}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No students found for the selected class.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Styles
+const containerStyle = {
+  padding: "20px",
+  maxWidth: "800px",
+  margin: "20px auto",
+  backgroundColor: "#f9f9f9",
+  borderRadius: "8px",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  textAlign: "center",
+};
+
+const headerStyle = {
+  color: "#007bff",
+  marginBottom: "20px",
+  fontSize: "24px",
+  fontWeight: "bold",
+};
+
+const dropdownStyle = {
+  padding: "10px",
+  borderRadius: "5px",
+  border: "1px solid lightgray",
+  marginBottom: "20px",
+  width: "100%",
+};
+
+const studentListStyle = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "15px",
+  marginTop: "20px",
+};
+
+const studentCardStyle = {
+  padding: "15px",
+  backgroundColor: "#e7f3ff",
+  border: "1px solid #007bff",
+  borderRadius: "8px",
+  textAlign: "left",
+};
+
+export default ShowStudentsToEdit;
+*/
+
 import React, { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";

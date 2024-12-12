@@ -186,7 +186,6 @@ const App = () => {
 
 export default App;
 */
-
 /*
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -363,302 +362,7 @@ const Header = () => {
 };
 
 export default App;
-*/
-
-/*
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import AddStudent from "./pages/AddStudent";
-import ShowStudents from "./pages/ShowStudents";
-import ShowStudentsToEdit from "./pages/ShowStudentsToEdit";
-import EditStudent from "./pages/EditStudent";
-import GenerateSeating from "./pages/GenerateSeating";
-import Questionnaire from "./pages/Questionnaire";
-import ShowQuesResults from "./pages/ShowQuesResults";
-import TeacherPage from "./pages/TeacherPage";
-import PrivateRoute from "./components/PrivateRoute";
-import Header from "./components/Header"; // Modularized Header
-
-// Create a Theme Context
-export const ThemeContext = createContext();
-
-const App = () => {
-  const [theme, setTheme] = useState("light");
-
-  // Load the saved theme from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-  }, []);
-
-  // Toggle between light and dark themes
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div
-        style={{
-          backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
-          color: theme === "light" ? "#333" : "#f9f9f9",
-          minHeight: "100vh",
-        }}
-      >
-        <Router>
-          <Header />
-          <Routes>
-
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-
-
-            <Route
-              path="/teacher"
-              element={
-                <PrivateRoute>
-                  <TeacherPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/add-student"
-              element={
-                <PrivateRoute>
-                  <AddStudent />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/show-students-to-edit"
-              element={
-                <PrivateRoute>
-                  <ShowStudentsToEdit />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/show-students"
-              element={
-                <PrivateRoute>
-                  <ShowStudents />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/edit-student/:id"
-              element={
-                <PrivateRoute>
-                  <EditStudent />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/generate-seating"
-              element={
-                <PrivateRoute>
-                  <GenerateSeating />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/questionnaire"
-              element={
-                <PrivateRoute>
-                  <Questionnaire />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/show-results/:studentId"
-              element={
-                <PrivateRoute>
-                  <ShowQuesResults />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </Router>
-      </div>
-    </ThemeContext.Provider>
-  );
-};
-
-export default App;
-*/
-
-/*
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
-import Dashboard from "./pages/Dashboard";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import AddStudent from "./pages/AddStudent";
-import ShowStudents from "./pages/ShowStudents";
-import ShowStudentsToEdit from "./pages/ShowStudentsToEdit";
-import EditStudent from "./pages/EditStudent";
-import GenerateSeating from "./pages/GenerateSeating";
-import Questionnaire from "./pages/Questionnaire";
-import ShowQuesResults from "./pages/ShowQuesResults";
-import TeacherPage from "./pages/TeacherPage";
-import PrivateRoute from "./components/PrivateRoute";
-import Header from "./components/Header"; // Modularized Header
-
-// Create a Theme Context
-export const ThemeContext = createContext();
-
-const INACTIVITY_TIMEOUT = 1 * 60 * 1000; // 1 minutes inactivity timeout
-
-const App = () => {
-  const [theme, setTheme] = useState("light");
-  const auth = getAuth();
-
-  // Load the saved theme from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-  }, []);
-
-  // Toggle between light and dark themes
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
-
-  // Inactivity timeout logic
-  useEffect(() => {
-    let timeout;
-
-    const logoutOnInactivity = () => {
-      signOut(auth)
-        .then(() => {
-          alert("You have been logged out due to inactivity.");
-          window.location.href = "/login";
-        })
-        .catch((error) => console.error("Error during logout:", error));
-    };
-
-    const resetTimer = () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(logoutOnInactivity, INACTIVITY_TIMEOUT);
-    };
-
-    // Attach event listeners
-    window.addEventListener("mousemove", resetTimer);
-    window.addEventListener("keydown", resetTimer);
-    window.addEventListener("click", resetTimer);
-
-    // Start the timer initially
-    resetTimer();
-
-    // Cleanup on unmount
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener("mousemove", resetTimer);
-      window.removeEventListener("keydown", resetTimer);
-      window.removeEventListener("click", resetTimer);
-    };
-  }, [auth]);
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div
-        style={{
-          backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
-          color: theme === "light" ? "#333" : "#f9f9f9",
-          minHeight: "100vh",
-        }}
-      >
-        <Router>
-          <Header />
-          <Routes>
-
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-
-            <Route
-              path="/teacher"
-              element={
-                <PrivateRoute>
-                  <TeacherPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/add-student"
-              element={
-                <PrivateRoute>
-                  <AddStudent />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/show-students-to-edit"
-              element={
-                <PrivateRoute>
-                  <ShowStudentsToEdit />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/show-students"
-              element={
-                <PrivateRoute>
-                  <ShowStudents />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/edit-student/:id"
-              element={
-                <PrivateRoute>
-                  <EditStudent />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/generate-seating"
-              element={
-                <PrivateRoute>
-                  <GenerateSeating />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/questionnaire"
-              element={
-                <PrivateRoute>
-                  <Questionnaire />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/show-results/:studentId"
-              element={
-                <PrivateRoute>
-                  <ShowQuesResults />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </Router>
-      </div>
-    </ThemeContext.Provider>
-  );
-};
-
-export default App;
-*/
-import React, { createContext, useState, useEffect, useContext } from "react";
+*/import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import Dashboard from "./pages/Dashboard";
@@ -672,13 +376,14 @@ import GenerateSeating from "./pages/GenerateSeating";
 import Questionnaire from "./pages/Questionnaire";
 import ShowQuesResults from "./pages/ShowQuesResults";
 import TeacherPage from "./pages/TeacherPage";
+import MyClassesPage from "./pages/MyClassesPage"; // Import the "My Classes" page
 import PrivateRoute from "./components/PrivateRoute";
 import Header from "./components/Header"; // Modularized Header
 
 // Create a Theme Context
 export const ThemeContext = createContext();
 
-const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes inactivity timeout
+const INACTIVITY_TIMEOUT = 3 * 60 * 1000; // 5 minutes inactivity timeout
 
 const App = () => {
   const [theme, setTheme] = useState("light");
@@ -772,7 +477,7 @@ const App = () => {
               }
             />
             <Route
-              path="/add-student"
+              path="/add-student/:classId"
               element={
                 <PrivateRoute>
                   <AddStudent />
@@ -824,6 +529,14 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <ShowQuesResults />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/my-classes"
+              element={
+                <PrivateRoute>
+                  <MyClassesPage />
                 </PrivateRoute>
               }
             />

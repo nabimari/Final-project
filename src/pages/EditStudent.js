@@ -418,7 +418,224 @@ const EditStudent = () => {
 
 export default EditStudent;
 */
+/*
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase"; // Ensure Firebase is set up correctly
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import Header from "../components/Header";
 
+const EditStudent = () => {
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [studentData, setStudentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch all students from Firestore
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const studentsCollection = collection(db, "Students");
+        const snapshot = await getDocs(studentsCollection);
+        const studentList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setStudents(studentList);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  // Handle student selection
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student.id);
+    setStudentData(student); // Prefill the form with student data
+  };
+
+  // Handle input changes in the form
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setStudentData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle checkbox changes
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setStudentData((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedStudent) {
+      alert("Please select a student to edit.");
+      return;
+    }
+
+    try {
+      const studentDoc = doc(db, "Students", selectedStudent);
+      await updateDoc(studentDoc, studentData);
+      alert("Student information updated successfully!");
+      // Optionally, refresh the students list
+    } catch (error) {
+      console.error("Error updating student: ", error);
+      alert("An error occurred while updating student information.");
+    }
+  };
+
+  return (
+    <div>
+      <Header title="Edit Student" />
+      <div style={containerStyle}>
+        <h2 style={headerStyle}>Edit Student</h2>
+
+
+        {loading ? (
+          <p>Loading students...</p>
+        ) : (
+          <div style={listContainerStyle}>
+            {students.map((student) => (
+              <div
+                key={student.id}
+                style={{
+                  ...listItemStyle,
+                  backgroundColor: selectedStudent === student.id ? "#007bff" : "#f9f9f9",
+                  color: selectedStudent === student.id ? "#fff" : "#333",
+                }}
+                onClick={() => handleStudentClick(student)}
+              >
+                {student.name} - {student.academicLevel}
+              </div>
+            ))}
+          </div>
+        )}
+
+
+        {studentData && (
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}
+          >
+            <input
+              type="text"
+              name="name"
+              value={studentData.name || ""}
+              onChange={handleChange}
+              required
+              placeholder="Student Name"
+              style={inputStyle}
+            />
+            <input
+              type="number"
+              name="age"
+              value={studentData.age || ""}
+              onChange={handleChange}
+              required
+              placeholder="Student Age"
+              style={inputStyle}
+            />
+            <input
+              type="text"
+              name="academicLevel"
+              value={studentData.academicLevel || ""}
+              onChange={handleChange}
+              required
+              placeholder="Academic Level"
+              style={inputStyle}
+            />
+            <input
+              type="text"
+              name="behavior"
+              value={studentData.behavior || ""}
+              onChange={handleChange}
+              required
+              placeholder="Behavior"
+              style={inputStyle}
+            />
+            <input
+              type="text"
+              name="language"
+              value={studentData.language || ""}
+              onChange={handleChange}
+              required
+              placeholder="Language"
+              style={inputStyle}
+            />
+            <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <input
+                type="checkbox"
+                name="specialNeeds"
+                checked={studentData.specialNeeds || false}
+                onChange={handleCheckboxChange}
+              />
+              Special Needs
+            </label>
+            <button type="submit" style={buttonStyle}>
+              Save Changes
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Styles
+const containerStyle = {
+  padding: "20px",
+  maxWidth: "800px",
+  margin: "20px auto",
+  backgroundColor: "#f9f9f9",
+  borderRadius: "8px",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  textAlign: "center",
+};
+
+const headerStyle = {
+  color: "#007bff",
+  marginBottom: "20px",
+  fontSize: "24px",
+  fontWeight: "bold",
+};
+
+const listContainerStyle = {
+  maxHeight: "300px",
+  overflowY: "auto",
+  border: "1px solid lightgray",
+  borderRadius: "5px",
+  marginBottom: "20px",
+};
+
+const listItemStyle = {
+  padding: "10px",
+  borderBottom: "1px solid lightgray",
+  cursor: "pointer",
+  textAlign: "left",
+};
+
+const inputStyle = {
+  padding: "10px",
+  borderRadius: "5px",
+  border: "1px solid lightgray",
+};
+
+const buttonStyle = {
+  padding: "12px",
+  borderRadius: "5px",
+  backgroundColor: "#007bff",
+  color: "#fff",
+  border: "none",
+  cursor: "pointer",
+  fontWeight: "bold",
+};
+
+export default EditStudent;
+*/
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase"; // Ensure Firebase is set up correctly
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
