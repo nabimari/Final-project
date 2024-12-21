@@ -551,8 +551,9 @@ const App = () => {
 
 export default App;
 */
+
 import React, { createContext, useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route , Navigate} from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
@@ -569,11 +570,12 @@ import MyClassesPage from "./pages/MyClassesPage"; // Import the "My Classes" pa
 import PrivateRoute from "./components/PrivateRoute";
 import Header from "./components/Header"; // Modularized Header
 import ViewStudentsPage from "./pages/ViewStudentsPage";
+import Analytics from "./pages/Analytics";
 
 // Create a Theme Context
 export const ThemeContext = createContext();
 
-const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 3 minutes inactivity timeout
+const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 3 minutes inactivity timeout
 
 const App = () => {
   const [theme, setTheme] = useState("light");
@@ -586,9 +588,8 @@ const App = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsLoggedIn(!!user);
       setCurrentUser(user);
-      console.log(user);
     });
-    return() => unsubscribe;
+    return () => unsubscribe();
   }, [auth]);
 
   // Load the saved theme from localStorage
@@ -655,12 +656,12 @@ const App = () => {
         <Router>
         <Header teacherName={currentUser?.displayName || "Teacher"} />
           <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={< LoginPage />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/register" element={<RegisterPage />} />
 
-            {/* Private Routes */}
+
             <Route
               path="/teacher"
               element={
@@ -705,7 +706,7 @@ const App = () => {
               path="/generate-seating"
               element={
                 <PrivateRoute>
-                  <GenerateSeating />
+                   <GenerateSeating teacherId={currentUser?.uid} />
                 </PrivateRoute>
               }
             />
@@ -741,6 +742,14 @@ const App = () => {
   element={
     <PrivateRoute>
       <ViewStudentsPage />
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/Analytics"
+  element={
+    <PrivateRoute>
+      <Analytics />
     </PrivateRoute>
   }
 />

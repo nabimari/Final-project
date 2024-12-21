@@ -1,13 +1,15 @@
 /*
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 const ShowQuesResults = () => {
+  const { theme } = useContext(ThemeContext); // Access theme from context
+  const { studentId } = useParams();
   const navigate = useNavigate();
-  const { studentId } = useParams(); // Get the student ID from the URL
   const [responses, setResponses] = useState({});
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -79,6 +81,7 @@ const ShowQuesResults = () => {
       await setDoc(docRef, responses);
       alert("Responses updated successfully!");
       setIsEditing(false); // Disable editing after saving
+      navigate("/show-students"); // Redirect to the Show Students page
     } catch (error) {
       console.error("Error saving responses: ", error);
       alert("Failed to save responses. Please try again.");
@@ -90,75 +93,78 @@ const ShowQuesResults = () => {
       width: "100%",
       height: "100%",
       padding: "20px",
-      background: "linear-gradient(to bottom, #e3f2fd, #bbdefb)",
+      backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
+      color: theme === "light" ? "#333" : "#f9f9f9",
       fontFamily: "'Arial', sans-serif",
     },
     innerContainer: {
       maxWidth: "900px",
       margin: "0 auto",
-      backgroundColor: "#ffffff",
+      backgroundColor: theme === "light" ? "#ffffff" : "#1e1e1e",
       borderRadius: "8px",
-      boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+      boxShadow: theme === "light" ? "0 8px 16px rgba(0, 0, 0, 0.2)" : "0 8px 16px rgba(0, 0, 0, 0.6)",
       padding: "20px",
     },
     header: {
       textAlign: "center",
-      color: "#ffffff",
-      backgroundColor: "#1e88e5",
+      color: theme === "light" ? "#ffffff" : "#f9f9f9",
+      backgroundColor: theme === "light" ? "#1e88e5" : "#333",
       padding: "20px",
       borderRadius: "8px 8px 0 0",
     },
     section: {
       marginBottom: "30px",
     },
-    backButton: {
-      position: "absolute",
-      left: "20px",
-      padding: "10px 20px",
-      backgroundColor: "#007bff",
-      color: "#ffffff",
-      border: "none",
-      borderRadius: "6px",
-      fontSize: "16px",
-      fontWeight: "bold",
-      cursor: "pointer",
-      zIndex: 1000,
-    },
     questionBox: {
       marginBottom: "20px",
       padding: "15px",
-      border: "1px solid #ddd",
+      border: theme === "light" ? "1px solid #ddd" : "1px solid #444",
       borderRadius: "8px",
-      backgroundColor: "#f4f4f9",
+      backgroundColor: theme === "light" ? "#f4f4f9" : "#2e2e2e",
     },
     label: {
       display: "block",
       marginBottom: "10px",
       fontWeight: "bold",
-      color: "#333",
+      color: theme === "light" ? "#333" : "#f9f9f9",
       fontSize: "16px",
     },
     input: {
       width: "100%",
       height: "40px",
       padding: "10px",
-      border: "1px solid #ccc",
+      border: theme === "light" ? "1px solid #ccc" : "1px solid #555",
       borderRadius: "6px",
       marginBottom: "10px",
       fontSize: "14px",
       boxSizing: "border-box",
-      backgroundColor: isEditing ? "#ffffff" : "#e9ecef",
+      backgroundColor: isEditing
+        ? theme === "light"
+          ? "#ffffff"
+          : "#1e1e1e"
+        : theme === "light"
+        ? "#e9ecef"
+        : "#333",
+      color: theme === "light" ? "#333" : "#f9f9f9",
       cursor: isEditing ? "text" : "not-allowed",
     },
     textarea: {
       width: "100%",
       height: "100px",
       padding: "10px",
-      border: "1px solid #ccc",
+      border: theme === "light" ? "1px solid #ccc" : "1px solid #555",
       borderRadius: "6px",
       fontSize: "14px",
+      resize: "none",
       boxSizing: "border-box",
-      backgroundColor: isEditing ? "#ffffff" : "#e9ecef",
+      backgroundColor: isEditing
+        ? theme === "light"
+          ? "#ffffff"
+          : "#1e1e1e"
+        : theme === "light"
+        ? "#e9ecef"
+        : "#333",
+      color: theme === "light" ? "#333" : "#f9f9f9",
       cursor: isEditing ? "text" : "not-allowed",
     },
     editButton: {
@@ -185,7 +191,7 @@ const ShowQuesResults = () => {
     },
     noData: {
       textAlign: "center",
-      color: "#666",
+      color: theme === "light" ? "#666" : "#ccc",
       fontSize: "16px",
     },
   };
@@ -200,12 +206,6 @@ const ShowQuesResults = () => {
         <header style={styles.header}>
           <h1>Questionnaire Results</h1>
         </header>
-        <button
-          style={styles.backButton}
-          onClick={() => navigate("/show-students")}
-        >
-          Back
-        </button>
         <button
           style={styles.editButton}
           onClick={() => setIsEditing((prev) => !prev)}
@@ -330,7 +330,7 @@ const ShowQuesResults = () => {
     ],
   };
   const mapping={
-    
+
     "Rate the student's academic performance in the subject:": "Rate performance",
     "Does the student require additional academic assistance?": "Requires assistance?",
     "Rate the student’s behavior in class:": "Behavior rating",
@@ -345,22 +345,22 @@ const ShowQuesResults = () => {
         // Query to find the student document by "id"
         const q = query(collection(db, "Students"), where("id", "==", studentId));
         const querySnapshot = await getDocs(q);
-  
+
         let docSnap;
         for (const studentDoc of querySnapshot.docs) {
           // Reference the "Questionnaire" sub-collection document
           const studentRef = doc(db, "Students", studentDoc.id, "Questionnaire", "Responses");
-  
+
           // Fetch the document
           docSnap = await getDoc(studentRef);
-  
+
           if (docSnap.exists()) {
             setResponses(docSnap.data()); // Save responses to state
             console.log("Questionnaire responses:", docSnap.data());
             break; // Exit the loop after finding the document
           }
         }
-  
+
         if (!docSnap || !docSnap.exists()) {
           console.log("No such document! No questionnaire responses found.");
         }
@@ -370,11 +370,11 @@ const ShowQuesResults = () => {
         setLoading(false); // Ensure loading spinner stops
       }
     };
-  
+
     fetchResponses();
   }, [studentId]);
-  
-  
+
+
   const handleInputChange = (section, question, value) => {
     setResponses((prev) => ({
       ...prev,
@@ -391,14 +391,14 @@ const ShowQuesResults = () => {
       // Step 1: Query the "Students" collection to find the document
       const q = query(collection(db, "Students"), where("id", "==", studentId));
       const querySnapshot = await getDocs(q);
-  
+
       // Step 2: Check if the student document exists
       if (!querySnapshot.empty) {
         querySnapshot.forEach(async (docSnapshot) => {
-          const responsesRef = doc(db, "Students", docSnapshot.id, "Questionnaire", "Responses"); 
+          const responsesRef = doc(db, "Students", docSnapshot.id, "Questionnaire", "Responses");
       // Step 4: Update the fields in the "Responses" document
          await setDoc(responsesRef, responses, { merge: true });
-  
+
           alert("Responses saved successfully!");
           navigate("/show-students")
         });
@@ -412,12 +412,26 @@ const ShowQuesResults = () => {
 
   const styles = {
     container: {
-      width: "100%",
-      height: "100%",
-      padding: "20px",
+      display: "flex",
+      flexDirection: "row",
+      minHeight: "100vh",
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
       color: theme === "light" ? "#333" : "#f9f9f9",
       fontFamily: "'Arial', sans-serif",
+    },
+    sidebarSpacing: {
+      width: "300px", 
+      flexShrink: 0,
+    },
+    contentArea: {
+      flex: 1,
+      marginLeft: "20px",
+      padding: "20px",
+      backgroundColor: theme === "light" ? "#ffffff" : "#1e1e1e",
+      borderRadius: "8px",
+      boxShadow: theme === "light"
+        ? "0 8px 16px rgba(0, 0, 0, 0.2)"
+        : "0 8px 16px rgba(0, 0, 0, 0.6)",
     },
     header: {
       textAlign: "center",
@@ -548,33 +562,24 @@ const ShowQuesResults = () => {
     saveButtonHover: {
       backgroundColor: "#2E7D32",
     },
-    innerContainer: {
-      maxWidth: "900px",
-      margin: "0 auto",
-      backgroundColor: theme === "light" ? "#ffffff" : "#1e1e1e",
-      borderRadius: "8px",
-      boxShadow: theme === "light"
-        ? "0 8px 16px rgba(0, 0, 0, 0.2)"
-        : "0 8px 16px rgba(0, 0, 0, 0.6)",
-      padding: "20px",
-    },
   };
   
 
+
   if (loading) {
     return <p style={{ textAlign: "center" }}>Loading...</p>;
- 
+
   }
 
   return (
-    
-    
     <div style={styles.container}>
+      <div style={styles.sidebarSpacing}></div> {/* Sidebar spacing */}
+      <div style={styles.contentArea}>
       <div style={styles.header}>
         <h1>Student Questionnaire</h1>
         <button
-  style={styles.editButton}
-  onClick={() => {
+        style={styles.editButton}
+        onClick={() => {
     if (!isEditing) {
       setOriginalResponses(responses); // Save responses before editing
     } else {
@@ -624,8 +629,8 @@ const ShowQuesResults = () => {
               <span style={{ marginLeft: "8px" }}>{option}</span>
             </div>
           ))
-          
-          
+
+
         ) : (
           <textarea
             style={styles.input}
@@ -647,11 +652,8 @@ const ShowQuesResults = () => {
         </button>
       )}
     </div>
+    </div>
   );
 };
 
 export default ShowQuesResults;
-
-
-
-
