@@ -613,9 +613,26 @@ const [alertType, setAlertType] = useState("");
       marginTop: "20px",
     }}
   >
+    {/* "X" Close Button */}
+    <button
+        onClick={() => setShowForgotPassword(false)} // Hide the reset container
+        style={{
+          backgroundColor: "transparent",
+          border: "none",
+          marginLeft:"350px",
+          marginTop:"-10px",
+          color: theme === "light" ? "#333" : "#fff",
+          fontSize: "18px",
+          fontWeight: "bold",
+          cursor: "pointer",
+        }}
+      >
+        X
+      </button>
     <h3 style={{ marginBottom: "15px", color: theme === "light" ? "#333" : "#fff" }}>
       Reset Password
     </h3>
+    
     <input
       type="email"
       value={forgotEmail}
@@ -647,25 +664,6 @@ const [alertType, setAlertType] = useState("");
       }}
     >
       Submit
-    </button>
-    <button
-      onClick={() => {
-        handleForgotPassword();
-        if (!forgotError) {
-          navigate("/login"); // Navigate to the login page after success
-        }
-      }}
-      style={{
-        padding: "10px 20px",
-        backgroundColor: theme === "light" ? "#6c757d" : "#444",
-        color: "#fff",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-      }}
-    >
-      Cancel
     </button>
   </div>
 )}

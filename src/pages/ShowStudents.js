@@ -409,22 +409,7 @@ const ShowStudents = () => {
             console.log("No student IDs found in the class data.");
           }
         }
-      } else {
-        // Fetch all students if no class is selected
-        const querySnapshot = await getDocs(collection(db, "Students"));
-        studentList = await Promise.all(
-          querySnapshot.docs.map(async (docSnapshot) => {
-            const questionnaireDoc = await getDoc(
-              doc(db, "Students", docSnapshot.id, "Questionnaire", "Responses")
-            );
-            return {
-              id: docSnapshot.id,
-              ...docSnapshot.data(),
-              hasSubmitted: questionnaireDoc.exists(),
-            };
-          })
-        );
-      }
+       } 
 
       setTimeout(() => {
         setStudents(studentList);
@@ -606,7 +591,7 @@ const ShowStudents = () => {
           )}
         </div>
   
-        {showFetchButton && (
+        {showFetchButton && selectedClass &&(
           <button onClick={fetchStudents} style={styles.fetchButton}>
             Fetch Students
           </button>
