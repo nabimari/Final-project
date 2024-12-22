@@ -378,7 +378,7 @@ const Sidebar = () => {
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     },
     activeMenuItem: {
-      backgroundColor: "#0d2b39", // Active color
+      backgroundColor: theme === "light" ? "#7e93a2" : "#0d2b39", // Active color
       color: theme === "light" ? "#000" : "#fff", // Active text color
       transform: "scale(1.05)", // Slightly enlarge active menu item
     },
@@ -420,6 +420,19 @@ const Sidebar = () => {
       width: "60px",
       height: "60px",
       animation: "spin 1s linear infinite",
+    },
+    menuItemLogout: {
+      display: "flex",
+      alignItems: "center",
+      gap: "15px",
+      padding: "15px 20px",
+      fontSize: "18px",
+      fontWeight: "bold",
+      borderRadius: "8px",
+      backgroundColor: "#e51515", // Default background
+      color: theme === "light" ? "#333" : "#f9f9f9",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
     },
   };
 
@@ -532,12 +545,12 @@ const Sidebar = () => {
  location.pathname !== "/register" &&
   (
     <div
-      style={styles.menuItem}
+      style={styles.menuItemLogout}
       onMouseEnter={(e) =>
-        (e.target.style.backgroundColor = theme === "light" ? "#e9ecef" : "#666")
+        (e.target.style.backgroundColor =  "#a40909")
       }
       onMouseLeave={(e) =>
-        (e.target.style.backgroundColor = "transparent")
+        (e.target.style.backgroundColor = "#e51515")
       }
       onClick={handleLogout}
     >

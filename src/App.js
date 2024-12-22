@@ -656,7 +656,7 @@ const App = () => {
         <Router>
         <Header teacherName={currentUser?.displayName || "Teacher"} />
           <Routes>
-            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/" element={<Navigate to="/Dashboard" />} />
             <Route path="/login" element={< LoginPage />} />
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/register" element={<RegisterPage />} />
