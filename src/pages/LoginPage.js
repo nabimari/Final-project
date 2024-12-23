@@ -1,144 +1,3 @@
-/*
-import React, { useState, useContext } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { ThemeContext } from "../App"; // Import ThemeContext
-
-const LoginPage = () => {
-  const { theme } = useContext(ThemeContext); // Access theme
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const auth = getAuth();
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-
-      const teacherDoc = await getDoc(doc(db, "Teachers", userCredential.user.uid));
-      if (teacherDoc.exists()) {
-        console.log("Teacher Data:", teacherDoc.data());
-        navigate("/teacher");
-      } else {
-        throw new Error("No teacher record found. Please contact support.");
-      }
-    } catch (err) {
-      setError(err.message || "An unexpected error occurred.");
-    }
-  };
-
-  // Dynamic styles based on the theme
-  const styles = {
-    body: {
-      backgroundColor: theme === "light" ? "#f0f0f0" : "#121212",
-      backgroundImage: `url(${theme === "light" ? "/path/to/light-image.jpg" : "/path/to/dark-image.jpg"})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      color: theme === "light" ? "#333" : "#fff",
-      fontFamily: "'Poppins', sans-serif",
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    container: {
-      width: "400px",
-      backgroundColor: theme === "light" ? "#ffffff" : "rgba(40, 40, 40, 0.9)",
-      padding: "50px 35px",
-      borderRadius: "10px",
-      backdropFilter: theme === "light" ? "none" : "blur(10px)",
-      border: theme === "light" ? "1px solid #ddd" : "2px solid rgba(255, 255, 255, 0.1)",
-      boxShadow: theme === "light"
-        ? "0 4px 8px rgba(0, 0, 0, 0.1)"
-        : "0 0 40px rgba(8, 7, 16, 0.6)",
-    },
-    header: {
-      fontSize: "32px",
-      fontWeight: "600",
-      color: theme === "light" ? "#333" : "#fff",
-      textAlign: "center",
-      borderBottom: `2px solid ${theme === "light" ? "#007bff" : "#fff"}`,
-      paddingBottom: "10px",
-      marginBottom: "20px",
-    },
-    input: {
-      display: "block",
-      width: "100%",
-      height: "50px",
-      marginTop: "20px",
-      padding: "10px",
-      borderRadius: "3px",
-      backgroundColor: theme === "light" ? "#f9f9f9" : "rgba(255, 255, 255, 0.07)",
-      color: theme === "light" ? "#333" : "#fff",
-      fontSize: "14px",
-      outline: "none",
-      border: theme === "light" ? "1px solid #ddd" : "1px solid #444",
-    },
-    button: {
-      width: "100%",
-      marginTop: "30px",
-      padding: "15px",
-      borderRadius: "5px",
-      backgroundColor: theme === "light" ? "#007bff" : "#333",
-      color: theme === "light" ? "#fff" : "#fff",
-      fontSize: "18px",
-      fontWeight: "600",
-      cursor: "pointer",
-      border: "none",
-    },
-    error: {
-      color: "red",
-      textAlign: "center",
-      marginTop: "10px",
-    },
-  };
-
-  return (
-
-    <div style={styles.body}>
-      <form style={styles.container} onSubmit={handleSubmit}>
-        <h3 style={styles.header}>Login</h3>
-        {error && <p style={styles.error}>{error}</p>}
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <button type="submit" style={styles.button}>
-          Log In
-        </button>
-      </form>
-    </div>
-  );
-};
-
-export default LoginPage;
-*/
 import React, { useState, useContext, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -172,13 +31,44 @@ const [alertType, setAlertType] = useState("");
       setRememberMe(true);
     }
   }, []);
+
+  /*const handleForgotPassword = async () => {
+    const auth = getAuth();
+    if (!forgotEmail) {
+      setForgotError("Please enter your email.");
+      return;
+    }
+
+    try {
+
+      const querySnapshot = await getDocs(collection(db, "Teachers"));
+      // Check if the email exists in the database
+      const emailExists = querySnapshot.docs.some(
+        (doc) => doc.data().email === forgotEmail
+      );
+
+      if (!emailExists) {
+        setForgotError("The entered email does not exist.");
+        setForgotSuccess("");
+        return;
+      }
+
+      await sendPasswordResetEmail(auth, forgotEmail);
+      setForgotSuccess("Password reset email sent. Please check your inbox.");
+      setForgotError("");
+    } catch (error) {
+      console.error("Error verifying email or sending password reset email:", error);
+      setForgotError("An error occurred. Please try again.");
+      setForgotSuccess("");
+    }
+  };*/
   const handleForgotPassword = () => {
     const auth = getAuth();
     if (!forgotEmail) {
       setForgotError("Please enter your email.");
       return;
     }
-  
+
     sendPasswordResetEmail(auth, forgotEmail)
       .then(() => {
         setForgotSuccess("Password reset email sent. Please check your inbox.");
@@ -209,13 +99,13 @@ const [alertType, setAlertType] = useState("");
         formData.email,
         formData.password
       );
-    
+
       const teacherDoc = await getDoc(doc(db, "Teachers", userCredential.user.uid));
       if (teacherDoc.exists()) {
         console.log("Teacher Data:", teacherDoc.data());
         setAlertMessage("Logged in successfully!");
         setAlertType("success");
-        
+
         setTimeout(() => {
           setAlertMessage(""); // Clear any previous error messages
           navigate("/Dashboard");
@@ -226,7 +116,7 @@ const [alertType, setAlertType] = useState("");
     } catch (err) {
       setAlertMessage( "Incorrect Login ID and/or password.");
       setAlertType("error");
-      setTimeout(() => setAlertMessage(""), 2000); 
+      setTimeout(() => setAlertMessage(""), 2000);
     }
   };
   const handleRememberMe = () => {
@@ -307,7 +197,7 @@ const [alertType, setAlertType] = useState("");
       transition: "all 0.3s ease",
     },
     button: {
-      width: "103%", 
+      width: "103%",
       height: "50px",
       padding: "12px",
       borderRadius: "8px",
@@ -344,8 +234,8 @@ const [alertType, setAlertType] = useState("");
         : "0 2px 4px rgba(255, 255, 255, 0.1)",
     },
     alertMessage: {
-      position: "absolute", 
-      top: "150px", 
+      position: "absolute",
+      top: "150px",
       left: "60%",
       transform: "translateX(-50%)",
       backgroundColor: alertType === "success" ? "#4CAF50" : "#F44336",
@@ -356,7 +246,7 @@ const [alertType, setAlertType] = useState("");
       textAlign: "center",
       fontWeight: "bold",
       zIndex: 1000,
-      display: "flex", 
+      display: "flex",
       alignItems: "center",
       gap: "10px",
     },
@@ -383,7 +273,7 @@ const [alertType, setAlertType] = useState("");
     icon: {
       position: "absolute",
       top: "50%",
-      right: "10px", 
+      right: "10px",
       transform: "translateY(-50%)",
       color: theme === "light" ? "#777" : "#ccc",
       fontSize: "20px",
@@ -517,10 +407,10 @@ const [alertType, setAlertType] = useState("");
         justifyContent: "center",
       },
     };
-    
-  
-  
-  
+
+
+
+
 
 
   return (
@@ -539,7 +429,7 @@ const [alertType, setAlertType] = useState("");
 )}
     <div style={styles.scrollableContainer}></div>
       <div style={styles.sidebarSpacing}></div>
-  
+
       {/* Main Content */}
       <div style={styles.mainContent}>
         <div style={styles.container}>
@@ -615,7 +505,7 @@ const [alertType, setAlertType] = useState("");
   >
     {/* "X" Close Button */}
     <button
-        onClick={() => setShowForgotPassword(false)} // Hide the reset container
+        onClick={() => setShowForgotPassword(false)}
         style={{
           backgroundColor: "transparent",
           border: "none",
@@ -632,7 +522,7 @@ const [alertType, setAlertType] = useState("");
     <h3 style={{ marginBottom: "15px", color: theme === "light" ? "#333" : "#fff" }}>
       Reset Password
     </h3>
-    
+
     <input
       type="email"
       value={forgotEmail}
@@ -670,7 +560,7 @@ const [alertType, setAlertType] = useState("");
 <button
   onClick={() => navigate("/register")} // Navigate to the Register page
   style={styles.signUpButton}
-    
+
 >
   I NEED A NEW ACCOUNT
 </button>
@@ -737,9 +627,9 @@ const [alertType, setAlertType] = useState("");
   </div>
 </footer>
     </div>
-    
+
   );
-  
+
 };
 
 export default LoginPage;

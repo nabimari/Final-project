@@ -1,106 +1,3 @@
-/*
-import React, { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { db } from "../firebase"; // Ensure the correct path to your firebase.js file
-import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
-
-const RegisterPage = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
-  });
-  const [error, setError] = useState("");
-
-  const navigate = useNavigate(); // Hook for redirection
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const auth = getAuth();
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      const user = userCredential.user;
-
-      // Save teacher details to Firestore
-      await setDoc(doc(db, "Teachers", user.uid), {
-        name: formData.name,
-        email: formData.email,
-      });
-
-      alert(`Registration successful! Welcome, ${formData.name}.`);
-
-      // Redirect to login page
-      navigate("/login");
-
-      setFormData({ email: "", password: "", name: "" });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  return (
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
-      <h2>Register</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-      >
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          style={{ padding: "8px", borderRadius: "4px", border: "1px solid lightgray" }}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          style={{ padding: "8px", borderRadius: "4px", border: "1px solid lightgray" }}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          style={{ padding: "8px", borderRadius: "4px", border: "1px solid lightgray" }}
-        />
-        <button
-          type="submit"
-          style={{
-            padding: "10px",
-            borderRadius: "4px",
-            backgroundColor: "lightblue",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Register
-        </button>
-      </form>
-    </div>
-  );
-};
-
-export default RegisterPage;
-*/
 import React, { useState, useContext } from "react";
 import { getAuth, createUserWithEmailAndPassword , updateProfile } from "firebase/auth";
 import { db } from "../firebase"; // Ensure the correct path to your firebase.js file
@@ -172,7 +69,7 @@ const RegisterPage = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      marginTop: "300px", 
+      marginTop: "300px",
     },
     container: {
       padding: "40px",
@@ -254,9 +151,9 @@ const RegisterPage = () => {
       marginBottom: "15px",
     },
   };
-  
-  
-  
+
+
+
 
 
   return (
@@ -307,15 +204,15 @@ const RegisterPage = () => {
   type="submit"
   style={styles.button}
   onMouseEnter={(e) => {
-    e.target.style.backgroundColor = theme === "light" ? "#007bff" : "#555"; 
-    e.target.style.transform = "scale(1.02)"; 
+    e.target.style.backgroundColor = theme === "light" ? "#007bff" : "#555";
+    e.target.style.transform = "scale(1.02)";
   }}
   onMouseLeave={(e) => {
-    e.target.style.backgroundColor = "#4CAF50"; 
-    e.target.style.transform = "scale(1)"; 
+    e.target.style.backgroundColor = "#4CAF50";
+    e.target.style.transform = "scale(1)";
   }}
-  onMouseDown={(e) => (e.target.style.transform = "scale(0.97)")} 
-  onMouseUp={(e) => (e.target.style.transform = "scale(1)")} 
+  onMouseDown={(e) => (e.target.style.transform = "scale(0.97)")}
+  onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
 >
   Register
 </button>
