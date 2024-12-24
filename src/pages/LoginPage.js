@@ -21,13 +21,15 @@ const LoginPage = () => {
   const [alertType, setAlertType] = useState("")
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem("email")
-    const savedPassword = localStorage.getItem("password")
-    if (savedEmail && savedPassword) {
-      setFormData({ email: savedEmail })
-      setRememberMe(true)
+    const savedRememberMe = localStorage.getItem("rememberMe") === "true";
+    if (savedRememberMe) {
+      setRememberMe(true);
+      const savedEmail = localStorage.getItem("email");
+      if (savedEmail) {
+        setFormData((prev) => ({ ...prev, email: savedEmail }));
+      }
     }
-  }, [])
+  }, []);
 
   const handleForgotPassword = async (e) => {
     e.preventDefault()
@@ -77,7 +79,6 @@ const LoginPage = () => {
       localStorage.setItem("email", formData.email)
     } else {
       localStorage.removeItem("email")
-      localStorage.removeItem("password")
     }
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -106,9 +107,17 @@ const LoginPage = () => {
     }
   }
 
-  const handleRememberMe = () => {
-    setRememberMe(!rememberMe)
+ const handleRememberMe = () => {
+  const newValue = !rememberMe;
+  setRememberMe(newValue);
+  
+  // Save the state to localStorage
+  if (newValue) {
+    localStorage.setItem("rememberMe", "true");
+  } else {
+    localStorage.removeItem("rememberMe");
   }
+};
 
     const styles = {
       pageContainer: {
@@ -346,7 +355,7 @@ const LoginPage = () => {
         alignItems: "center",
         justifyContent: "center",
         padding: "20px 0",
-        backgroundColor: "#0d2b39",
+        backgroundColor: theme === "light" ? "#7e93a2" :"#0d2b39",
         color: "#ffffff",
         textAlign: "center",
         borderTop: "1px solid #ccc",

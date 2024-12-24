@@ -65,7 +65,7 @@ const Dashboard = () => {
       alignItems: "center",
       justifyContent: "center",
       padding: "20px 0",
-      backgroundColor: "#0d2b39",
+      backgroundColor: theme === "light" ? "#7e93a2" :"#0d2b39",
       color: "#ffffff",
       textAlign: "center",
       borderTop: "1px solid #ccc",

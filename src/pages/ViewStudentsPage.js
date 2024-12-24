@@ -1,6 +1,6 @@
 import React, { useEffect, useState ,useContext} from "react";
 import { db } from "../firebase";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, collection, addDoc } from "firebase/firestore";
+import { doc, getDocs, updateDoc, arrayUnion, arrayRemove, collection, addDoc, query, where } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "../App"; // Import ThemeContext
 
@@ -19,23 +19,32 @@ const ViewStudentsPage = ({ teacherName }) => {
   const { theme } = useContext(ThemeContext); // Access theme
   const [editingStudent, setEditingStudent] = useState(null);
 
-  // Fetch class data
   useEffect(() => {
     const fetchClassData = async () => {
       try {
-        const classRef = doc(db, "Classes", classId);
-        const classSnapshot = await getDoc(classRef);
-        if (classSnapshot.exists()) {
-          setClassData({ id: classSnapshot.id, ...classSnapshot.data() });
-        }
+        const studentsQuery = query(
+          collection(db, "Students"),
+          where("classId", "==", classId) // Filter by the classId
+        );
+        const querySnapshot = await getDocs(studentsQuery);
+        const studentsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+  
+        setClassData({
+          id: classId, // Keep the `classData` format consistent
+          name: `Class ${classId}`, // Dummy name or replace with actual class name if needed
+          students: studentsData, // Set fetched students
+        });
       } catch (err) {
         console.error("Error fetching class data:", err.message);
       }
     };
-
+  
     fetchClassData();
   }, [classId]);
-
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setNewStudent((prev) => ({
@@ -50,8 +59,6 @@ const ViewStudentsPage = ({ teacherName }) => {
     if (
       !newStudent.name ||
       !newStudent.age ||
-      !newStudent.academicLevel ||
-      !newStudent.behavior ||
       !newStudent.language
     ) {
       alert("Please fill in all fields.");
@@ -114,9 +121,24 @@ const ViewStudentsPage = ({ teacherName }) => {
   };
 
   const handleEditStudent = (student) => {
-    setEditingStudent(student);
-    setNewStudent(student);
+    if (editingStudent && editingStudent.id === student.id) {
+      // Cancel editing
+      setEditingStudent(null);
+      setNewStudent({
+        name: "",
+        age: "",
+        academicLevel: "",
+        behavior: "",
+        specialNeeds: false,
+        language: "",
+      });
+    } else {
+      // Start editing the selected student
+      setEditingStudent(student);
+      setNewStudent(student);
+    }
   };
+  
 
   const handleSaveEdit = async (e) => {
     e.preventDefault();
@@ -351,7 +373,7 @@ const ViewStudentsPage = ({ teacherName }) => {
                         onClick={() => handleEditStudent(student)}
                         style={styles.editButton}
                       >
-                        Edit
+                        {editingStudent && editingStudent.id === student.id ? "Cancel Edit" : "Edit"}
                       </button>
                       <button
                         onClick={() => handleDeleteStudent(student)}
@@ -396,24 +418,7 @@ const ViewStudentsPage = ({ teacherName }) => {
                 max="18"
                 style={styles.input}
               />
-              <input
-                type="text"
-                name="academicLevel"
-                placeholder="Academic Level"
-                value={newStudent.academicLevel}
-                onChange={handleChange}
-                required
-                style={styles.input}
-              />
-              <input
-                type="text"
-                name="behavior"
-                placeholder="Behavior"
-                value={newStudent.behavior}
-                onChange={handleChange}
-                required
-                style={styles.input}
-              />
+              
               <input
                 type="text"
                 name="language"
@@ -423,16 +428,7 @@ const ViewStudentsPage = ({ teacherName }) => {
                 required
                 style={styles.input}
               />
-              <label style={styles.checkboxLabel}>
-                <input
-                  type="checkbox"
-                  name="specialNeeds"
-                  checked={newStudent.specialNeeds}
-                  onChange={handleChange}
-                  style={styles.checkbox}
-                />
-                Special Needs
-              </label>
+              
               <button
                 type="submit"
                 style={{
