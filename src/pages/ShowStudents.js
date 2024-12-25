@@ -139,6 +139,7 @@ const ShowStudents = () => {
   const styles = {
     pageContainer: {
       display: "flex",
+      marginTop:"-80px",
       flexDirection: "row",
       minHeight: "100vh",
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
@@ -269,7 +270,6 @@ const ShowStudents = () => {
       <div style={styles.sidebarSpacing}></div>
       <div style={styles.mainContent}>
         <header style={styles.header}>
-          <div style={styles.headerTitle}>Student Management</div>
         </header>
 
         <div style={styles.dropdownContainer}>

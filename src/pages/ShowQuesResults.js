@@ -201,6 +201,7 @@ const ShowQuesResults = () => {
       border: "none",
       borderRadius: "8px",
       cursor: "pointer",
+      marginLeft:"-800px",
       transition: "background-color 0.3s ease",
       boxShadow: "0 3px 6px rgba(0, 0, 0, 0.2)",
     },
@@ -321,7 +322,6 @@ const ShowQuesResults = () => {
       <div style={styles.sidebarSpacing}></div> {/* Sidebar spacing */}
       <div style={styles.contentArea}>
       <div style={styles.header}>
-        <h1>Student Questionnaire</h1>
         <button
         style={styles.editButton}
         onClick={() => {

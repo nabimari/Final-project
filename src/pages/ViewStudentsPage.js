@@ -176,6 +176,7 @@ const ViewStudentsPage = ({ teacherName }) => {
   const styles = {
     container: {
       display: "flex",
+      minHeight: "95vh",
       flexDirection: "row",
       padding: "20px",
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",

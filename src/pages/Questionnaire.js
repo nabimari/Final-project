@@ -69,6 +69,7 @@ if (
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
       color: theme === "light" ? "#333" : "#f9f9f9",
       fontFamily: "'Arial', sans-serif",
+      marginTop:"10px",
     },
     sidebarSpacing: {
       width: "300px", // Width of the sidebar
@@ -180,7 +181,7 @@ if (
       <div style={styles.contentArea}>
       <div style={styles.innerContainer}>
         <header style={styles.header}>
-          <h1>Student Questionnaire</h1>
+          
         </header>
 
         {/* Academic Performance */}

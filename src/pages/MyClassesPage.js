@@ -80,6 +80,7 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
     },
     pageContainer: {
       flex: 1,
+      marginBottom:"300px",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -176,7 +177,7 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
     },
     addClassButton: {
       padding: "10px 20px",
-      backgroundColor: theme === "light" ? "#007bff" : "#555",
+      backgroundColor:  "#007bff" ,
       color: "#fff",
       border: "none",
       borderRadius: "8px",
@@ -196,8 +197,6 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
     <div style={styles.pageLayout}> {/* New container for sidebar spacing */}
       <div style={styles.sidebarSpacing}></div> {/* Space for sidebar */}
       <div style={styles.pageContainer}>
-        <h2 style={styles.headerTitle}>My Classes</h2>
-
         {classes.length > 0 ? (
           <ul style={styles.listContainer}>
             {classes.map((classItem) => (

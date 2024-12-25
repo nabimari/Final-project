@@ -103,7 +103,7 @@ const Dashboard = () => {
     footerCopyright: {
       marginTop: "20px",
       fontSize: "14px",
-      color: "#bbb",
+      color: "#000",
       textAlign: "center",
     },
     socialIcons: {
@@ -151,20 +151,6 @@ const Dashboard = () => {
         {/* Main Content */}
         <div style={styles.mainContent}>
           <h1 style={styles.header}>Welcome to the Dashboard</h1>
-          <div style={styles.buttonContainer}>
-            <button
-              style={{ ...styles.button, backgroundColor: "#007bff" }}
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-            <button
-              style={{ ...styles.button, backgroundColor: "#28a745" }}
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </button>
-          </div>
         </div>
       </div>
 

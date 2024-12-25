@@ -328,7 +328,7 @@ const LoginPage = () => {
       footerCopyright: {
         marginTop: "20px",
         fontSize: "14px",
-        color: "#bbb",
+        color: "#000",
         textAlign: "center",
       },
       newsletterInput: {

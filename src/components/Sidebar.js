@@ -97,7 +97,7 @@ const dynamicPaths = {
       textTransform: "uppercase",
       background:
       //"#7e93a2" : "#0d2b39"
-      "linear-gradient(90deg,#0d2b39,#7e93a2 , #000 ,#7e93a2 ,#0d2b39)",
+      "linear-gradient(90deg,#0d2b39,#7e93a2 , #000 ,#fff ,#7e93a2 ,#0d2b39)",
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
       backgroundSize: "400% 400%",

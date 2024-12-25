@@ -161,7 +161,7 @@ const RegisterPage = () => {
       <div style={styles.sidebarSpacing}></div>
       <div style={styles.mainContent}>
       <div style={styles.container}>
-<h2 style={styles.header}>Register</h2>
+<h2 style={styles.header}>Sign Up</h2>
 {error && <p style={styles.error}>{error}</p>}
 <form onSubmit={handleSubmit} style={styles.form}>
 <div style={styles.inputWrapper}>
@@ -214,7 +214,7 @@ const RegisterPage = () => {
   onMouseDown={(e) => (e.target.style.transform = "scale(0.97)")}
   onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
 >
-  Register
+Create Account
 </button>
 
 
