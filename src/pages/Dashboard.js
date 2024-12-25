@@ -24,12 +24,11 @@ const Dashboard = () => {
       flexShrink: 0,
     },
     mainContent: {
-      maxWidth: "58%",
-      maxHeight: '60%',
-      height: "50vh",
+      flex: 1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      padding: "20px",
       backgroundColor: theme === "light" ? "#ffffff" : "#1E1E1E",
       borderRadius: "12px",
       boxShadow: theme === "light"
@@ -151,9 +150,8 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <div style={styles.mainContent}>
-        <img src="/classroom_background.png"></img>
+          <h1 style={styles.header}>Welcome to the Dashboard</h1>
         </div>
-          {/* <h1 style={styles.header}>Welcome to the Dashboard</h1> */}
       </div>
 
       {/* Footer */}
