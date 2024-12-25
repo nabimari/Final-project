@@ -6,6 +6,7 @@ import { db, auth } from "../firebase"
 import { ThemeContext } from "../App" 
 import { sendPasswordResetEmail } from "firebase/auth"
 import { FaUser, FaLock } from "react-icons/fa"
+import { getAllTeachers, getTeacherById } from "../services/teacherHandler"
   
 const LoginPage = () => {
  const { theme } = useContext(ThemeContext)
@@ -38,10 +39,9 @@ const LoginPage = () => {
       return
     }
 
-      const teachersCollection = collection(db, "Teachers")
-      const existingEmails = await getDocs(teachersCollection)
-      
-      const doesEmailExist = existingEmails.docs.some((doc) => {
+      const currentTeachers = await getAllTeachers()
+
+      const doesEmailExist = currentTeachers.docs.some((doc) => {
         const data = doc.data()
         return data.email === forgotEmail
       })
@@ -86,8 +86,8 @@ const LoginPage = () => {
         formData.email,
         formData.password
       )
-
-      const teacherDoc = await getDoc(doc(db, "Teachers", userCredential.user.uid))
+      const teacherDoc = await getTeacherById(userCredential.user.uid)
+      // const teacherDoc = await getDoc(doc(db, "Teachers", userCredential.user.uid))
       if (teacherDoc.exists()) {
         console.log("Teacher Data:", teacherDoc.data())
         setAlertMessage("Logged in successfully!")

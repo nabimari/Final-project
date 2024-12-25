@@ -47,7 +47,7 @@ if (
         const studentRef = doc(db, "Students", studentDoc.id, "Questionnaire", "Responses");
         await setDoc(studentRef, { ...responses });
         const studentMainRef = doc(db, "Students", studentDoc.id);
-
+        
       await updateDoc(studentMainRef, {
         academicLevel: responses["Academic Performance"]["Rate performance"],
         behavior: responses["Behavioral and Social Traits"]["Behavior rating"],
