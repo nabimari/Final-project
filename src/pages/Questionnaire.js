@@ -4,6 +4,7 @@ import { doc, setDoc, collection, query, where, getDocs,updateDoc } from "fireba
 import { db } from "../firebase";
 import { ThemeContext } from "../App"; // Ensure you import ThemeContext from App.js
 
+
 const Questionnaire = () => {
   const { studentId } = useParams();
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ if (
       color: theme === "light" ? "#333" : "#f9f9f9",
       fontFamily: "'Arial', sans-serif",
       marginTop:"10px",
+      flexWrap: "wrap",
     },
     sidebarSpacing: {
       width: "300px", // Width of the sidebar
@@ -86,6 +88,10 @@ if (
       borderRadius: "8px",
       boxShadow: theme === "light" ? "0 8px 16px rgba(0, 0, 0, 0.2)" : "0 8px 16px rgba(0, 0, 0, 0.6)",
       padding: "20px",
+      "@media (maxWidth: 768px)": {
+    padding: "15px", // Reduce padding
+    maxWidth: "100%", // Use full width on mobile
+  },
     },
     header: {
       textAlign: "center",
@@ -109,6 +115,9 @@ if (
       border: theme === "light" ? "1px solid #ddd" : "1px solid #444",
       borderRadius: "8px",
       backgroundColor: theme === "light" ? "#f4f4f9" : "#2e2e2e",
+      "@media (maxWidth: 768px)": {
+    padding: "15px", // Adjust padding
+  },
     },
     label: {
       display: "block",
@@ -143,6 +152,10 @@ if (
       borderRadius: "8px",
       border: "none",
       cursor: "pointer",
+      "@media (maxWidth: 768px)": {
+    padding: "12px", // Adjust padding
+    fontSize: "14px", // Smaller font for mobile
+  },
     },
     radioOption: {
       position: "relative",

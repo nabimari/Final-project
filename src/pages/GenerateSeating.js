@@ -2753,6 +2753,7 @@ import {
   setDoc,
   getDoc,
 } from "firebase/firestore";
+
 import { ThemeContext } from "../App"; // Import ThemeContext
 
 const GenerateSeating = ({ teacherId }) => {
@@ -2948,14 +2949,18 @@ const GenerateSeating = ({ teacherId }) => {
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
       color: theme === "light" ? "#333" : "#f9f9f9",
       boxSizing: "border-box",
+      flexWrap: "wrap", // Allow wrapping for smaller screens
     },
     sidebarSpacing: {
-      width: "300px", // Matches the sidebar width
+      width: "300px",
       flexShrink: 0,
+      "@media (maxWidth: 768px)": {
+        display: "none", // Hide sidebar on smaller screens
+      },
     },
     mainContent: {
       flex: 1,
-      padding: "40px",
+      padding: "20px",
       display: "flex",
       flexDirection: "column",
       gap: "20px",
@@ -2966,6 +2971,9 @@ const GenerateSeating = ({ teacherId }) => {
       boxShadow: theme === "light"
         ? "0 4px 8px rgba(0, 0, 0, 0.1)"
         : "0 4px 8px rgba(0, 0, 0, 0.5)",
+        "@media (maxWidth: 768px)": {
+    padding: "10px", // Less padding for mobile
+  },
     },
     containerStyle: {
       padding: "20px",
@@ -3004,8 +3012,8 @@ const GenerateSeating = ({ teacherId }) => {
     },
     attendanceGridStyle: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-      gap: "15px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", // Flexible grid for mobile
+  gap: "10px",
     },
     attendanceItemStyle: {
       padding: "10px",
@@ -3041,7 +3049,7 @@ const GenerateSeating = ({ teacherId }) => {
       display: "flex", // Ensures all items are in a row
       flexWrap: "wrap", // Allows wrapping to the next line if needed
       gap: "15px", // Add spacing between items
-      justifyContent: "flex-start", // Align items to the start of the row
+      justifyContent: "center", // Center align for mobile
     },
     ixStyle: {
       width: "100%",

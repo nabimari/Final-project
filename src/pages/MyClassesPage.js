@@ -4,6 +4,7 @@ import { collection, query, where, getDocs, doc, setDoc } from "firebase/firesto
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../App"; // Import ThemeContext
 
+
 const MyClassesPage = ({ teacherId, teacherName }) => {
   const [classes, setClasses] = useState([]);
   const [newClassName, setNewClassName] = useState("");
@@ -73,6 +74,7 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
       color: theme === "light" ? "#333" : "#f9f9f9",
       fontFamily: "'Roboto', sans-serif",
+      flexWrap: "wrap", // Ensures wrapping on smaller screens
     },
     sidebarSpacing: {
       width: "300px", // Matches the width of the sidebar
@@ -86,6 +88,10 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
       alignItems: "center",
       justifyContent: "center",
       padding: "20px",
+      "@media (maxWidth: 768px)": {
+    padding: "10px", // Reduce padding
+    marginBottom: "150px", // Adjust margin for smaller screens
+  },
     },
     headerTitle: {
       textAlign: "center",
@@ -99,6 +105,9 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
       padding: "0",
       width: "100%",
       maxWidth: "800px",
+      "@media (maxWidth: 768px)": {
+    maxWidth: "100%", // Use full width on smaller screens
+  },
     },
     classItem: {
       marginBottom: "15px",
@@ -112,6 +121,10 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      flexDirection: "row",
+      "@media (maxWidth: 768px)": {
+    flexDirection: "column", // Stack items vertically on smaller screens
+  },
     },
     itemRow: {
       display: "flex",
@@ -149,6 +162,9 @@ const MyClassesPage = ({ teacherId, teacherName }) => {
         : "0 4px 8px rgba(0, 0, 0, 0.4)",
       width: "100%",
       maxWidth: "800px",
+      "@media (maxWidth: 768px)": {
+    maxWidth: "100%", // Use full width on smaller screens
+  },
     },
     addClassHeader: {
       textAlign: "center",

@@ -22,6 +22,7 @@ const Sidebar = () => {
   const teacherName = currentUser?.displayName || "Teacher";
   const [showAlert, setShowAlert] = useState(false);
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
   const pageTitles = {
     "/Dashboard": "home",
     "/my-classes": "My Classes",
@@ -51,6 +52,7 @@ const dynamicPaths = {
     }
     setIsLoading(true);
     setTimeout(() => {
+      setIsOpen(false);
       setIsLoading(false);
       navigate(path);
     }, 500);
@@ -88,7 +90,7 @@ const dynamicPaths = {
       flexDirection: "column",
       justifyContent: "center",
       padding: "30px 20px",
-      transform: "translateY(-40px)", 
+      transform: "translateY(-50px)", 
     },
     virtualClassroom: {
       fontSize: "45px",
@@ -322,6 +324,10 @@ const dynamicPaths = {
     </div>
   )}
   </div>
+  <button onClick={() => setIsOpen(!isOpen)} className="toggle-button">
+        ☰
+      </button>
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <div style={styles.sidebar}>
         {/* Logo Container */}
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -444,6 +450,7 @@ const dynamicPaths = {
       </style>
       {/* Add Margin to Main Content */}
     <div style={{ marginTop: "70px" }}>
+    </div>
     </div>
     </>
   );

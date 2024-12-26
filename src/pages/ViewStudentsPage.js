@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { ThemeContext } from "../App"; // Import ThemeContext
 
 
+
 const ViewStudentsPage = ({ teacherName }) => {
   const { classId } = useParams();
   const [classData, setClassData] = useState(null);
@@ -182,6 +183,11 @@ const ViewStudentsPage = ({ teacherName }) => {
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       color: theme === "light" ? "#333" : "#f9f9f9",
+      "@media (maxWidth: 768px)": {
+        flexDirection: "column", // Stack the layout vertically for smaller screens
+        padding: "10px", // Reduce padding
+      },
+      
     },
     sidebarSpacing: {
       width: "300px", // Matches sidebar width
@@ -197,6 +203,11 @@ const ViewStudentsPage = ({ teacherName }) => {
       boxShadow: theme === "light"
         ? "0 4px 8px rgba(0, 0, 0, 0.1)"
         : "0 4px 8px rgba(0, 0, 0, 0.5)",
+        "@media (maxWidth: 768px)": {
+  maxWidth: "100%", // Make it full-width
+  margin: "0", // Remove auto margins
+  padding: "10px", // Reduce padding for smaller screens
+},
     },
     header: {
       marginBottom: "20px",
@@ -226,6 +237,10 @@ const ViewStudentsPage = ({ teacherName }) => {
         ? "0 2px 4px rgba(0, 0, 0, 0.1)"
         : "0 2px 4px rgba(0, 0, 0, 0.3)",
       padding: "10px", // Optional padding for aesthetics
+      overflowX: "auto", // Horizontal scroll for small screens
+"@media (maxWidth: 768px)": {
+  padding: "5px", // Smaller padding for mobile
+},
     },
     th: {
       padding: "12px",
@@ -234,12 +249,20 @@ const ViewStudentsPage = ({ teacherName }) => {
       textAlign: "left",
       fontWeight: "bold",
       textTransform: "uppercase",
+      "@media (maxWidth: 768px)": { 
+        fontSize: "12px", // Smaller font for mobile
+        padding: "8px", // Adjust padding for mobile
+      },
     },
     td: {
       padding: "10px",
       color: theme === "light" ? "#333" : "#ddd",
       borderBottom: theme === "light" ? "1px solid #ddd" : "1px solid #444",
       transition: "background-color 0.3s ease-in-out",
+      "@media (maxWidth: 768px)": { 
+        fontSize: "12px", // Smaller font for mobile
+        padding: "8px", // Adjust padding for mobile
+      },
     },
     tableRowHover: {
       backgroundColor: theme === "light" ? "#F8F9FA" : "#2D3748",
@@ -283,6 +306,11 @@ const ViewStudentsPage = ({ teacherName }) => {
       boxShadow: theme === "light"
         ? "0 4px 8px rgba(0, 0, 0, 0.1)"
         : "0 4px 8px rgba(0, 0, 0, 0.5)",
+        "@media (maxWidth: 768px)": {
+  width: "100%", // Full-width for mobile
+  marginLeft: "0", // Remove left margin
+  padding: "10px", // Reduce padding
+},
     },
     formHeader: {
       marginBottom: "15px",
@@ -330,6 +358,7 @@ const ViewStudentsPage = ({ teacherName }) => {
     submitButtonHover: {
       backgroundColor: "#1769aa",
     },
+    
   };
 
 

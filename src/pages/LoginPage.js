@@ -6,6 +6,7 @@ import { db, auth } from "../firebase"
 import { ThemeContext } from "../App" 
 import { sendPasswordResetEmail } from "firebase/auth"
 import { FaUser, FaLock } from "react-icons/fa"
+
   
 const LoginPage = () => {
  const { theme } = useContext(ThemeContext)
@@ -127,6 +128,7 @@ const LoginPage = () => {
         backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
         color: theme === "light" ? "#333" : "#f9f9f9",
         boxSizing: "border-box",
+        flexWrap: "wrap",
       },
       sidebarSpacing: {
         width: "300px",
@@ -157,6 +159,10 @@ const LoginPage = () => {
           : "0 4px 20px rgba(0, 0, 0, 0.4)",
         fontFamily: "'Roboto', sans-serif",
         transform: "translateY(0)",
+        "@media (max-width: 768px)": {
+    padding: "20px", // Reduce padding for smaller screens
+    maxWidth: "90%", // Adjust max width for small screens
+  },
       },
       header: {
         textAlign: "center",
@@ -191,6 +197,10 @@ const LoginPage = () => {
           ? "inset 0 2px 4px rgba(0, 0, 0, 0.1)"
           : "inset 0 2px 4px rgba(255, 255, 255, 0.1)",
         transition: "all 0.3s ease",
+        "@media (maxWidth: 480px)": {
+    fontSize: "14px", // Smaller font for small screens
+    height: "40px", // Adjust height for smaller devices
+  },
       },
       button: {
         width: "103%",
@@ -360,6 +370,10 @@ const LoginPage = () => {
         textAlign: "center",
         borderTop: "1px solid #ccc",
         width: "100%",
+        "@media (maxWidth: 768px)": {
+    flexDirection: "column", // Stack footer content vertically
+    padding: "10px", // Reduce padding
+  },
       },
       footerSpacing: {
         width: "300px",
