@@ -9,6 +9,7 @@ const Dashboard = () => {
       display: "flex",
       flexDirection: "column",
       minHeight: "100vh",
+      backgroundPosition: "center",
       backgroundColor: theme === "light" ? "#f9f9f9" : "#121212",
       color: theme === "light" ? "#333" : "#f9f9f9",
       boxSizing: "border-box",
